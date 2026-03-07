@@ -76,7 +76,6 @@ body {
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.4s ease;
   scrollbar-width: none;
-  background-attachment: fixed;
   background-image:
     linear-gradient(135deg, #f5f7fa 0%, #e8ecf3 100%);
 }
@@ -120,6 +119,7 @@ mark {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 82px 16px 24px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .navbar {
@@ -139,7 +139,7 @@ mark {
   z-index: 1000;
   padding: 0 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav-left,
@@ -198,8 +198,9 @@ mark {
   background-color: var(--indicator-bg);
   border-radius: 11px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1;
+  will-change: transform;
 }
 
 [data-theme="dark"] .nav-indicator {
@@ -280,14 +281,12 @@ h3 {
 .card {
   background: var(--card-bg);
   background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.05));
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
   border-radius: var(--radius-md);
   padding: 24px;
   margin-bottom: 20px;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-color);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background-color 0.3s ease;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
   position: relative;
   overflow: hidden;
 }
@@ -311,8 +310,6 @@ h3 {
 
 .expense-item {
   background: var(--card-bg);
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
   border-radius: var(--radius-md);
   padding: 16px 12px;
   display: flex;
@@ -508,13 +505,14 @@ input:focus {
   border-top-right-radius: var(--radius-xl);
   padding: 24px 16px 32px;
   transform: translateY(100%);
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1), background-color 0.25s ease;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);
   z-index: 101;
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-color);
   border-bottom: none;
+  will-change: transform;
 }
 
 .modal-overlay.open .bottom-sheet {
@@ -660,6 +658,7 @@ input:focus {
   padding-bottom: 12px;
   margin-bottom: 8px;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .filters-scroll::-webkit-scrollbar {
@@ -669,8 +668,6 @@ input:focus {
 .filter-chip {
   padding: 8px 16px;
   background-color: var(--tab-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border-color);
   border-radius: 20px;
   font-size: 14px;
@@ -678,7 +675,7 @@ input:focus {
   white-space: nowrap;
   cursor: pointer;
   color: var(--text-primary);
-  transition: all 0.25s ease;
+  transition: transform 0.1s ease, background-color 0.2s ease, color 0.2s ease;
 }
 
 .filter-chip:active {
@@ -776,8 +773,7 @@ input:focus {
 /* Swipeable Items Enhancements */
 .swipeable-wrapper {
   position: relative;
-  /* overflow: hidden; Removed to prevent clipping border during parallax */
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: opacity 0.3s ease, max-height 0.3s ease, transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   transform-origin: top;
   margin-bottom: 0px;
   border-radius: var(--radius-md);
@@ -834,6 +830,7 @@ input:focus {
   width: 100%;
   user-select: none;
   -webkit-user-select: none;
+  will-change: transform;
 }
 
 .chart-tooltip {
@@ -853,6 +850,7 @@ input:focus {
   overflow-x: auto;
   scrollbar-width: none;
   flex: 1;
+  -webkit-overflow-scrolling: touch;
 }
 
 .heatmap-scroll::-webkit-scrollbar {
@@ -863,9 +861,7 @@ input:focus {
   transition: opacity 0.15s;
 }
 
-.heatmap-cell:hover {
-  opacity: 0.8;
-}
+
 
 .heatmap-tooltip {
   position: absolute;
@@ -912,13 +908,11 @@ input:focus {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   background: var(--card-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   color: var(--text-primary);
   font-size: 15px;
   box-shadow: var(--shadow-sm);
   outline: none;
-  transition: all 0.25s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .search-input:focus {
@@ -1041,14 +1035,7 @@ input:focus {
   transition: all 0.2s;
 }
 
-.mobile-tip-close:hover {
-  background: rgba(0, 0, 0, 0.05);
-  color: var(--text-primary);
-}
 
-[data-theme="dark"] .mobile-tip-close:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
 
 /* Login Modern UI */
 .login-header {
@@ -1173,9 +1160,7 @@ input:focus {
   transition: opacity 0.2s;
 }
 
-.toggle-mode-btn:hover {
-  opacity: 1;
-}
+
 
 .admin-card {
   border: 2px solid var(--accent-color);
