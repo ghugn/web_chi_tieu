@@ -4,6 +4,7 @@ import { Search as SearchIcon, X } from 'lucide-react';
 import { getExpenses, deleteExpense, updateExpense } from '../api';
 import SwipeableExpenseItem from './SwipeableExpenseItem';
 import useParallax from '../hooks/useParallax';
+import { useBottomSheet } from '../hooks/useBottomSheet';
 
 function HighlightText({ text, query }) {
     if (!query || !text) return <>{text}</>;
@@ -35,6 +36,8 @@ export default function SearchPage() {
     const [editAmount, setEditAmount] = useState('');
     const [editNote, setEditNote] = useState('');
     const [isSaving, setIsSaving] = useState(false);
+
+    const editSheet = useBottomSheet(() => setEditingExpense(null));
 
     useEffect(() => {
         fetchAll();
@@ -152,7 +155,7 @@ export default function SearchPage() {
 
             {/* Edit Bottom Sheet */}
             <div className={`modal-overlay ${editingExpense ? 'open' : ''}`} onClick={() => setEditingExpense(null)}>
-                <div className="bottom-sheet" onClick={e => e.stopPropagation()}>
+                <div className={`bottom-sheet ${editSheet.className}`} onClick={e => e.stopPropagation()} {...editSheet}>
                     <div className="sheet-handle"></div>
                     <div className="sheet-header">
                         <h3>Sửa chi tiêu</h3>

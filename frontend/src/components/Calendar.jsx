@@ -16,6 +16,7 @@ import { ChevronLeft, ChevronRight, Plus, Trash2, Calendar as CalendarIcon } fro
 import { getExpenses, createExpense, deleteExpense, updateExpense } from '../api';
 import SwipeableExpenseItem from './SwipeableExpenseItem';
 import useParallax from '../hooks/useParallax';
+import { useBottomSheet } from '../hooks/useBottomSheet';
 
 export default function Calendar() {
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -31,6 +32,11 @@ export default function Calendar() {
     const [note, setNote] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [editingExpense, setEditingExpense] = useState(null);
+
+    const modalSheet = useBottomSheet(() => {
+        setIsModalOpen(false);
+        setOpenItemId(null);
+    });
 
     // Fetch expenses for the current month view to show indicator dots
     useEffect(() => {
@@ -215,7 +221,7 @@ export default function Calendar() {
 
             {/* Bottom Sheet Modal */}
             <div className={`modal-overlay ${isModalOpen ? 'open' : ''}`} onClick={() => { setIsModalOpen(false); setOpenItemId(null); }}>
-                <div className="bottom-sheet" onClick={(e) => e.stopPropagation()}>
+                <div className={`bottom-sheet ${modalSheet.className}`} onClick={(e) => e.stopPropagation()} {...modalSheet}>
                     <div className="sheet-handle"></div>
 
                     <div className="sheet-header">

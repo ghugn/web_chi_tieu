@@ -552,12 +552,19 @@ input:focus {
   transform: translateY(0);
 }
 
+.bottom-sheet.dragging {
+  transition: none !important;
+}
+
 .sheet-handle {
   width: 40px;
   height: 5px;
   background-color: rgba(142, 142, 147, 0.4);
   border-radius: 3px;
   margin: -12px auto 20px;
+  cursor: grab;
+  touch-action: pan-x;
+  /* Allow pan-y to be handled by our JS */
 }
 
 .sheet-header {
