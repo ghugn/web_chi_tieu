@@ -1,4 +1,6 @@
-const API_URL = 'http://localhost:3000';
+const API_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:3000'
+    : 'https://web-chi-tieu.onrender.com';
 
 const getHeaders = (includeJson = true) => {
     const headers = {};
