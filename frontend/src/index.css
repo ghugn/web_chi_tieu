@@ -296,6 +296,12 @@ h3 {
   background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
 }
 
+.card:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
 /* List */
 .expense-list {
   display: flex;
@@ -316,6 +322,12 @@ h3 {
   border: 1px solid var(--border-color);
   position: relative;
   z-index: 1;
+}
+
+.expense-item:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 [data-theme="dark"] .expense-item {
@@ -667,6 +679,11 @@ input:focus {
   cursor: pointer;
   color: var(--text-primary);
   transition: all 0.25s ease;
+}
+
+.filter-chip:active {
+  transform: scale(0.93);
+  transition: transform 0.1s ease;
 }
 
 
