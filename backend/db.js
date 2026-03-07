@@ -1,8 +1,8 @@
 const Database = require('better-sqlite3');
 const path = require('path');
 
-// Keep the database file in the same directory for simplicity
-const dbPath = path.join(__dirname, 'database.sqlite');
+// Database file at project root (relative to where server runs)
+const dbPath = path.resolve('./database.sqlite');
 const db = new Database(dbPath);
 
 // Enable WAL mode for better performance

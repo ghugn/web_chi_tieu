@@ -1,8 +1,8 @@
 node_modules/
 .DS_Store
-*.sqlite
 *.sqlite-shm
 *.sqlite-wal
+backups/
 .env
 dist/
 build/
