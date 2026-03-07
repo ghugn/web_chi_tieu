@@ -221,7 +221,7 @@ export default function Calendar() {
 
             {/* Bottom Sheet Modal */}
             <div className={`modal-overlay ${isModalOpen ? 'open' : ''}`} onClick={() => { setIsModalOpen(false); setOpenItemId(null); }}>
-                <div className={`bottom-sheet ${modalSheet.className}`} onClick={(e) => e.stopPropagation()} {...modalSheet}>
+                <div className={`bottom-sheet ${modalSheet.className}`} ref={modalSheet.ref} onClick={(e) => e.stopPropagation()}>
                     <div className="sheet-handle"></div>
 
                     <div className="sheet-header">

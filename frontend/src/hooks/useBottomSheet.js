@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState } from 'react';
+import { useRef, useCallback, useState, useEffect } from 'react';
 
 /**
  * Hook to handle swipe-down-to-close gesture for bottom sheets.
@@ -9,32 +9,43 @@ export const useBottomSheet = (onClose) => {
     const [isDragging, setIsDragging] = useState(false);
     const sheetRef = useRef(null);
     const startY = useRef(0);
+    const startTime = useRef(0);
     const currentOffset = useRef(0);
+    const isActuallySwiping = useRef(false);
 
     const onTouchStart = useCallback((e) => {
-        // Only start if we're at the top of the scroll or on the header/handle
-        const target = e.target;
         const sheet = sheetRef.current;
+        if (!sheet) return;
 
-        // Basic check to see if we should allow dragging
-        // If the user is scrolling inside a scrollable area, we might want to disable swipe-down
-        // but typically for bottom sheets, we allow swipe down from the top.
-        if (sheet && sheet.scrollTop > 0) return;
+        const target = e.target;
+        const isHeader = target.closest('.sheet-handle') || target.closest('.sheet-header');
+
+        // Only allow swipe if at top of content, OR if touching the header area
+        if (!isHeader && sheet.scrollTop > 0) return;
 
         startY.current = e.touches[0].clientY;
+        startTime.current = Date.now();
         setIsDragging(true);
+        isActuallySwiping.current = false;
     }, []);
 
     const onTouchMove = useCallback((e) => {
         if (!isDragging) return;
 
-        const deltaY = e.touches[0].clientY - startY.current;
+        const touchY = e.touches[0].clientY;
+        const deltaY = touchY - startY.current;
 
-        // Only allow swiping down (positive deltaY)
-        if (deltaY > 0) {
+        // Threshold to distinguish from accidental taps or micro-scrolls
+        if (!isActuallySwiping.current && deltaY > 10) {
+            isActuallySwiping.current = true;
+        }
+
+        if (isActuallySwiping.current && deltaY > 0) {
+            // CRITICAL: Block background scrolling
+            if (e.cancelable) e.preventDefault();
+
             currentOffset.current = deltaY;
             if (sheetRef.current) {
-                // Direct DOM manipulation for performance
                 sheetRef.current.style.transform = `translateY(${deltaY}px)`;
                 sheetRef.current.style.transition = 'none';
             }
@@ -46,29 +57,41 @@ export const useBottomSheet = (onClose) => {
 
         setIsDragging(false);
         const offset = currentOffset.current;
+        const duration = Date.now() - startTime.current;
+        const velocity = offset / duration;
+
         currentOffset.current = 0;
+        isActuallySwiping.current = false;
 
         if (sheetRef.current) {
-            // Restore transition
             sheetRef.current.style.transition = '';
 
-            if (offset > 120) {
-                // Swipe down threshold reached
+            if (offset > 200 || (velocity > 0.5 && offset > 20)) {
                 onClose();
-                // We keep it at offset for a moment so it looks like it's exiting
-                // The parent component should handle removing it from DOM or the 'open' class
             } else {
-                // Snap back
                 sheetRef.current.style.transform = '';
             }
         }
     }, [isDragging, onClose]);
 
+    // Attach listeners manually to support { passive: false } which is required for preventDefault() on iOS
+    useEffect(() => {
+        const sheet = sheetRef.current;
+        if (!sheet) return;
+
+        sheet.addEventListener('touchstart', onTouchStart, { passive: true });
+        sheet.addEventListener('touchmove', onTouchMove, { passive: false });
+        sheet.addEventListener('touchend', onTouchEnd, { passive: true });
+
+        return () => {
+            sheet.removeEventListener('touchstart', onTouchStart);
+            sheet.removeEventListener('touchmove', onTouchMove);
+            sheet.removeEventListener('touchend', onTouchEnd);
+        };
+    }, [onTouchStart, onTouchMove, onTouchEnd]);
+
     return {
         ref: sheetRef,
-        onTouchStart,
-        onTouchMove,
-        onTouchEnd,
         className: isDragging ? 'dragging' : ''
     };
 };

@@ -205,7 +205,7 @@ export default function Overview() {
 
             {/* Edit Bottom Sheet */}
             <div className={`modal-overlay ${editingExpense ? 'open' : ''}`} onClick={() => setEditingExpense(null)}>
-                <div className={`bottom-sheet ${editSheet.className}`} onClick={(e) => e.stopPropagation()} {...editSheet}>
+                <div className={`bottom-sheet ${editSheet.className}`} ref={editSheet.ref} onClick={(e) => e.stopPropagation()}>
                     <div className="sheet-handle"></div>
                     <div className="sheet-header">
                         <h3>Sửa chi tiêu</h3>
