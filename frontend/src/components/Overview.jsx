@@ -9,7 +9,7 @@ import {
     endOfYear,
     subDays
 } from 'date-fns';
-import { Trash2, TrendingDown, Calendar as CalendarIcon, Filter } from 'lucide-react';
+import { Trash2, TrendingDown, Calendar as CalendarIcon } from 'lucide-react';
 import { getExpenses, deleteExpense, updateExpense } from '../api';
 import SwipeableExpenseItem from './SwipeableExpenseItem';
 import useParallax from '../hooks/useParallax';
@@ -147,7 +147,7 @@ export default function Overview() {
                         <input type="date" className="form-input" style={{ padding: '8px', fontSize: '14px' }} value={endDate} onChange={(e) => setEndDate(e.target.value)} />
                     </div>
                     <button type="submit" className="btn" style={{ width: 'auto', padding: '0 16px', marginTop: '19px' }}>
-                        <Filter size={18} />
+                        Lọc
                     </button>
                 </form>
             )}
