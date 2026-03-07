@@ -223,13 +223,23 @@ export default function Statistics() {
                 >
                     <div className="form-group">
                         <label className="form-label" style={{ fontSize: '11px', paddingLeft: '8px' }}>Từ</label>
-                        <input type="date" className="form-input" style={{ padding: '8px', fontSize: '14px' }}
-                            value={customStart} onChange={e => setCustomStart(e.target.value)} />
+                        <div className="date-input-container">
+                            <input type="date" className="form-input" style={{ padding: '8px', fontSize: '14px' }}
+                                value={customStart} onChange={e => setCustomStart(e.target.value)} />
+                            <div className="date-display-overlay">
+                                {customStart ? format(new Date(customStart), 'd/M/yyyy') : 'Chọn ngày'}
+                            </div>
+                        </div>
                     </div>
                     <div className="form-group">
                         <label className="form-label" style={{ fontSize: '11px', paddingLeft: '8px' }}>Đến</label>
-                        <input type="date" className="form-input" style={{ padding: '8px', fontSize: '14px' }}
-                            value={customEnd} onChange={e => setCustomEnd(e.target.value)} />
+                        <div className="date-input-container">
+                            <input type="date" className="form-input" style={{ padding: '8px', fontSize: '14px' }}
+                                value={customEnd} onChange={e => setCustomEnd(e.target.value)} />
+                            <div className="date-display-overlay">
+                                {customEnd ? format(new Date(customEnd), 'd/M/yyyy') : 'Chọn ngày'}
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" className="date-range-submit">
                         <Search size={16} />

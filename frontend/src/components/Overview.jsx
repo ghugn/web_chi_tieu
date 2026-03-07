@@ -140,11 +140,21 @@ export default function Overview() {
                 <form onSubmit={handleCustomFilterSubmit} className="date-range-form card" style={{ padding: '12px' }}>
                     <div className="form-group">
                         <label className="form-label" style={{ fontSize: '11px', paddingLeft: '8px' }}>Từ ngày</label>
-                        <input type="date" className="form-input" style={{ padding: '8px', fontSize: '14px' }} value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                        <div className="date-input-container">
+                            <input type="date" className="form-input" style={{ padding: '8px', fontSize: '14px' }} value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                            <div className="date-display-overlay">
+                                {startDate ? format(new Date(startDate), 'd/M/yyyy') : 'Chọn ngày'}
+                            </div>
+                        </div>
                     </div>
                     <div className="form-group">
                         <label className="form-label" style={{ fontSize: '11px', paddingLeft: '8px' }}>Đến ngày</label>
-                        <input type="date" className="form-input" style={{ padding: '8px', fontSize: '14px' }} value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+                        <div className="date-input-container">
+                            <input type="date" className="form-input" style={{ padding: '8px', fontSize: '14px' }} value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+                            <div className="date-display-overlay">
+                                {endDate ? format(new Date(endDate), 'd/M/yyyy') : 'Chọn ngày'}
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" className="date-range-submit">
                         <Search size={16} />
