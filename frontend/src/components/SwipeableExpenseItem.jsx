@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Trash2, MoreHorizontal } from 'lucide-react';
 import { format } from 'date-fns';
-import useParallax from '../hooks/useParallax';
+
 
 export default function SwipeableExpenseItem({
     expense,
@@ -22,7 +22,7 @@ export default function SwipeableExpenseItem({
     const currentX = useRef(0);
     const isHorizontalScroll = useRef(false);
     const menuRef = useRef(null);
-    const parallax = useParallax(5); // Matching summary card style effect
+
 
     const ACTION_WIDTH = 120;
     const THRESHOLD = 40;
@@ -188,8 +188,6 @@ export default function SwipeableExpenseItem({
         <div
             className={`swipeable-wrapper ${isDeleting ? 'deleting' : ''}`}
             ref={menuRef}
-            onMouseMove={parallax.onMouseMove}
-            onMouseLeave={parallax.onMouseLeave}
         >
             <div
                 className="swipeable-actions"
@@ -220,10 +218,10 @@ export default function SwipeableExpenseItem({
             <div
                 className="swipeable-content expense-item"
                 style={{
-                    transform: `translateX(${offset}px) ${parallax.style.transform || ''}`,
-                    transition: isDragging ? 'none' : (parallax.style.transition || 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)'),
+                    transform: `translateX(${offset}px)`,
+                    transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
                     touchAction: 'pan-y',
-                    zIndex: parallax.style.zIndex || 1
+                    zIndex: 1
                 }}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
