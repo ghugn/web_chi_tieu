@@ -296,21 +296,6 @@ h3 {
   background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
 }
 
-.card:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: var(--shadow-md);
-  background-color: rgba(255, 255, 255, 0.65);
-}
-
-[data-theme="dark"] .card:hover {
-  background-color: rgba(44, 44, 46, 0.65);
-}
-
-.card:active {
-  transform: translateY(-2px) scale(0.99);
-  transition: transform 0.1s ease;
-}
-
 /* List */
 .expense-list {
   display: flex;
@@ -329,14 +314,8 @@ h3 {
   align-items: center;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-color);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
   position: relative;
   z-index: 1;
-}
-
-.expense-item:hover {
-  z-index: 10;
-  box-shadow: var(--shadow-md);
 }
 
 [data-theme="dark"] .expense-item {
@@ -690,10 +669,6 @@ input:focus {
   transition: all 0.25s ease;
 }
 
-.filter-chip:hover {
-  background-color: rgba(0, 122, 255, 0.1);
-  color: var(--accent-color);
-}
 
 .filter-chip.active {
   background-color: var(--accent-color);
