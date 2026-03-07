@@ -1,6 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { LayoutDashboard, Calendar as CalendarIcon, Search, LogOut, Sun, Moon, Smartphone, X } from 'lucide-react';
-import { Overview, Calendar, Login, SearchPage } from './components';
+
+// Lazy load components for faster initial bundle loading
+const Overview = lazy(() => import('./components/Overview'));
+const Calendar = lazy(() => import('./components/Calendar'));
+const SearchPage = lazy(() => import('./components/SearchPage'));
+const Login = lazy(() => import('./components/Login'));
+
+// Simple loading placeholder
+const PageLoader = () => (
+    <div className="empty-state" style={{ height: '60vh' }}>
+        <div className="loading-spinner"></div>
+    </div>
+);
 
 export default function App() {
     const [userPin, setUserPin] = useState(null);
@@ -10,16 +22,7 @@ export default function App() {
         if (saved) return saved;
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     });
-    const [bgStyle, setBgStyle] = useState({});
     const [showMobileTip, setShowMobileTip] = useState(false);
-
-    const handleMouseMove = (e) => {
-        const moveX = (e.clientX / window.innerWidth - 0.5) * 20;
-        const moveY = (e.clientY / window.innerHeight - 0.5) * 20;
-        setBgStyle({
-            backgroundPosition: `${50 + moveX}% ${50 + moveY}%`
-        });
-    };
 
     // Theme Management
     useEffect(() => {
@@ -32,12 +35,11 @@ export default function App() {
         setTheme(prev => prev === 'light' ? 'dark' : 'light');
     };
 
-    // Make sure we have the token stored or just state for now since it's simple
+    // Auth & Device Check
     useEffect(() => {
         const storedPin = localStorage.getItem('userPin');
         if (storedPin) setUserPin(storedPin);
 
-        // Check for mobile recommendation
         const isDismissed = localStorage.getItem('mobileTipDismissed');
         const checkWidth = () => {
             if (window.innerWidth > 1024 && !isDismissed) {
@@ -68,11 +70,15 @@ export default function App() {
     };
 
     if (!userPin) {
-        return <Login onLogin={handleLogin} />;
+        return (
+            <Suspense fallback={<PageLoader />}>
+                <Login onLogin={handleLogin} />
+            </Suspense>
+        );
     }
 
     return (
-        <div className="app-container" onMouseMove={handleMouseMove} style={bgStyle}>
+        <div className="app-container">
             {/* Fixed Navbar */}
             <nav className="navbar">
                 <div className="nav-left">
@@ -128,11 +134,13 @@ export default function App() {
                 </div>
             </nav>
 
-            {/* Main Content */}
+            {/* Main Content with Lazy Loading */}
             <main className="main-content">
-                {activeTab === 'overview' && <Overview />}
-                {activeTab === 'calendar' && <Calendar />}
-                {activeTab === 'search' && <SearchPage />}
+                <Suspense fallback={<PageLoader />}>
+                    {activeTab === 'overview' && <Overview />}
+                    {activeTab === 'calendar' && <Calendar />}
+                    {activeTab === 'search' && <SearchPage />}
+                </Suspense>
             </main>
 
             {/* Mobile Recommendation Tip */}
