@@ -23,6 +23,7 @@ import {
     Legend
 } from 'recharts';
 import { getExpenses } from '../api';
+import { Search } from 'lucide-react';
 import useParallax from '../hooks/useParallax';
 
 const RANGE_OPTIONS = [
@@ -230,8 +231,8 @@ export default function Statistics() {
                         <input type="date" className="form-input" style={{ padding: '8px', fontSize: '14px' }}
                             value={customEnd} onChange={e => setCustomEnd(e.target.value)} />
                     </div>
-                    <button type="submit" className="btn" style={{ width: 'auto', padding: '0 16px', marginTop: '19px' }}>
-                        Lọc
+                    <button type="submit" className="date-range-submit">
+                        <Search size={16} />
                     </button>
                 </form>
             )}

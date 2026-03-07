@@ -717,8 +717,7 @@ input:focus {
 /* Custom Date Range Form */
 .date-range-form {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
   margin-bottom: 16px;
   align-items: flex-end;
 }
@@ -729,8 +728,32 @@ input:focus {
   margin-bottom: 0;
 }
 
-.date-range-form .btn {
+.date-range-form .form-label {
+  padding-left: 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.date-range-submit {
+  width: 42px;
+  height: 42px;
   flex-shrink: 0;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+  margin-bottom: 1px;
+}
+
+.date-range-submit:active {
+  transform: scale(0.9);
+  opacity: 0.85;
 }
 
 
