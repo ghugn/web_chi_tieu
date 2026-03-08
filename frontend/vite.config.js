@@ -7,9 +7,13 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-ui': ['lucide-react', 'recharts'],
-          'vendor-utils': ['date-fns']
+        manualChunks(id) {
+          if (id.includes('lucide-react') || id.includes('recharts')) {
+            return 'vendor-ui';
+          }
+          if (id.includes('date-fns')) {
+            return 'vendor-utils';
+          }
         }
       }
     },
